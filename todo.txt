@@ -1,0 +1,37 @@
+Functional Requirements
+Your main menu should include the following operations:
+
+Register Patient (Enqueue):
+
+Ask for the patient's Name and Age.
+
+Add them to the end of the line.
+
+Serve Patient (Dequeue):
+
+Call the next patient in line.
+
+Display their name ("Now serving: John Doe").
+
+Remove them from the list and free the memory associated with that node.
+
+If the line is empty, display "No patients waiting."
+
+Emergency Admit (Push Front):
+
+Ask for Name and Age.
+
+This patient skips the line and is added to the very front of the list (Head).
+
+View Line:
+
+Print the current list of waiting patients in order.
+
+Display the total count of patients waiting.
+
+Close Clinic (Exit):
+
+When the user chooses to exit, the program must ensure all remaining patients in the list are removed and their memory is free()'d before the program terminates.
+
+Technical Requirements
+Data Structure: You must use a struct that contains the data and a next pointer.
