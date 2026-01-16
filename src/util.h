@@ -1,9 +1,12 @@
 #ifndef UTIL_H
 #define UTIL_H
 
+#include <ncurses.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-Patient *make_patient(char *name, int age);
+void serving_patient(WINDOW *win, int width, int height);
+
+void register_patient(WINDOW *win, int width, int height);
 
 #endif

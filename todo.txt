@@ -39,3 +39,34 @@ Data Structure: You must use a struct that contains the data and a next pointer.
 sudo apt update
 sudo apt install libcurses5-dev libcursesw5-dev
 sudo apt install libncurses-dev
+
+
+=== MedQueue Clinic System ===
+1. Register Patient
+2. Serve Patient
+3. Emergency Admit
+4. View Line
+5. Exit
+
+Enter choice: 1
+
+Enter Patient Name: Sarah
+Enter Patient Age: 25
+[Success] Sarah added to the line.
+
+Enter choice: 2
+NOW Serving Patient Sarah
+
+Enter choice: 3
+Emergeny Admit
+Enter Patient Name: Ladi
+Enter Patient Age: 15
+[Success] Ladi added to the line.
+
+Enter choice: 4
+
+Enter choice: 5
+Close program
+
+**/
+
