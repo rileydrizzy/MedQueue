@@ -6,7 +6,8 @@
 
 // void get_patient_detatil(void)
 
-typedef struct {
+typedef struct
+{
   char *First_Name;
   char *Last_Name;
   int Age;
@@ -16,22 +17,26 @@ typedef struct {
 extern Patient_Node *HEAD;
 extern Patient_Node *TAIL;
 
-Patient_Node *alloc_patient(void) {
+Patient_Node *alloc_patient(void)
+{
 
-  if (HEAD == NULL) {
+  if (HEAD == NULL)
+  {
     HEAD = &Patient;
     TAIL = &Patient;
     return Patient;
-
-  } else {
+  }
+  else
+  {
     TAIL->next_patient = &Patient;
     TAIL = &Patient;
   }
   return Patient;
 }
 
-void register_patient(WINDOW *win, int width, int height) {
-          alloc_patient();
+void register_patient(WINDOW *win, int width, int height)
+{
+  alloc_patient();
 
   // 1. Clear the inside of the existing box
   werase(win);
@@ -69,7 +74,8 @@ void register_patient(WINDOW *win, int width, int height) {
   wgetch(win); // Wait for user to read success message
 }
 
-void serving_patient(WINDOW *win, int width, int height) {
+void serving_patient(WINDOW *win, int width, int height)
+{
   werase(win);
   box(win, 0, 0);
   wattron(win, A_BOLD);

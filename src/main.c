@@ -4,7 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-int main(void) {
+int main(void)
+{
   initscr();
   start_color();
   noecho();
@@ -23,11 +24,13 @@ int main(void) {
   WINDOW *menu_win = newwin(height, width, start_y, start_x);
   keypad(menu_win, TRUE);
 
-  while (1) {
+  while (1)
+  {
     werase(menu_win);
     box(menu_win, 0, 0);
     mvwprintw(menu_win, 2, (width - 26) / 2, "=== MedQueue Clinic System ===");
-    for (int i = 0; i < n_choices; i++) {
+    for (int i = 0; i < n_choices; i++)
+    {
       if (i == highlight)
         wattron(menu_win, A_REVERSE);
       mvwprintw(menu_win, 5 + (i * 2), (width - strlen(choices[i])) / 2, "%s",
@@ -37,17 +40,33 @@ int main(void) {
     wrefresh(menu_win);
 
     int c = wgetch(menu_win);
-    if (c == 10) {
-      if (highlight == 0) {
+    if (c == 10)
+    {
+      if (highlight == 0)
+      {
         register_patient(menu_win, width, height);
-      } else if (highlight == 1) {
+      }
+      else if (highlight == 1)
+      {
         serving_patient(menu_win, width, height);
-      } else if (highlight == 4) {
+      }
+      else if (highlight == 2)
+      {
+      }
+      else if (highlight == 3)
+      {
+      }
+      else if (highlight == 4)
+      {
         break; // Exit
       }
-    } else if (c == KEY_UP) {
+    }
+    else if (c == KEY_UP)
+    {
       highlight = (highlight == 0) ? n_choices - 1 : highlight - 1;
-    } else if (c == KEY_DOWN) {
+    }
+    else if (c == KEY_DOWN)
+    {
       highlight = (highlight == n_choices - 1) ? 0 : highlight + 1;
     }
   }

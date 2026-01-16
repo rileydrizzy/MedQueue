@@ -35,6 +35,7 @@
 *.i*86
 *.x86_64
 *.hex
+medqueue
 
 # Debug files
 *.dSYM/
@@ -59,3 +60,4 @@ dkms.conf
 .replit
 
 # Others
+dev
