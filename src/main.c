@@ -4,8 +4,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+
 int main(void)
 {
+  Patient_Queue *Q;
   initscr();
   start_color();
   noecho();
@@ -44,11 +47,11 @@ int main(void)
     {
       if (highlight == 0)
       {
-        register_patient(menu_win, width, height);
+        register_patient(menu_win, width, height, Q);
       }
       else if (highlight == 1)
       {
-        serving_patient(menu_win, width, height);
+        serving_patient(menu_win, width, height, Q);
       }
       else if (highlight == 2)
       {

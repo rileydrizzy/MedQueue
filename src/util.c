@@ -4,39 +4,32 @@
 #include <stdlib.h>
 #include <string.h>
 
-// void get_patient_detatil(void)
-
-typedef struct
+Patient_Node *alloc_patient(Patient_Queue *queue)
 {
-  char *First_Name;
-  char *Last_Name;
-  int Age;
-  struct Patient_Node *next_patient;
-} Patient_Node;
-
-extern Patient_Node *HEAD;
-extern Patient_Node *TAIL;
-
-Patient_Node *alloc_patient(void)
-{
-
-  if (HEAD == NULL)
+  Patient_Node *Patient = malloc(sizeof(Patient_Node));
+  if (Patient == NULL)
   {
-    HEAD = &Patient;
-    TAIL = &Patient;
+    puts("Allocation failed");
+    return NULL;
+  }
+  Patient->next_patient = NULL;
+  if (queue->head == NULL)
+  {
+    queue->head = Patient;
+    queue->tail = Patient;
     return Patient;
   }
   else
   {
-    TAIL->next_patient = &Patient;
-    TAIL = &Patient;
+    queue->tail->next_patient = Patient;
+    queue->tail = Patient;
   }
   return Patient;
 }
 
-void register_patient(WINDOW *win, int width, int height)
+void register_patient(WINDOW *win, int width, int height, Patient_Queue *queue)
 {
-  alloc_patient();
+  Patient_Node *new_Patient = alloc_patient(queue);
 
   // 1. Clear the inside of the existing box
   werase(win);
@@ -49,32 +42,36 @@ void register_patient(WINDOW *win, int width, int height)
   // 2. Enable typing visibility
   echo();
   curs_set(1); // Show cursor for typing
+  // Safe input for strings
+  mvwprintw(win, 5, 4, "Enter Patient First Name: ");
+  wgetnstr(win, new_Patient->first_name, 49);
 
-  mvwprintw(win, 5, 4, "Enter Patient Name: ");
-  wgetnstr(win, name, 49); // Safe input for strings
+  mvwprintw(win, 7, 4, "Enter Patient Last Name: ");
+  wgetnstr(win, new_Patient->last_name, 49);
 
-  mvwprintw(win, 7, 4, "Enter Patient Age: ");
+  mvwprintw(win, 9, 4, "Enter Patient Age: ");
   wrefresh(win);
 
   // Using scanw style for age
-  char age_str[10];
+  char age_str[4];
   wgetnstr(win, age_str, 9);
-  age = atoi(age_str);
+  new_Patient->age = atoi(age_str);
 
   // 3. Success Message
   noecho();
   curs_set(0);
   wattron(win, COLOR_PAIR(1) | A_BOLD); // Assuming color 1 is green
-  mvwprintw(win, 10, (width - (18 + strlen(name))) / 2,
-            "[Success] %s added to the line.", name);
+  mvwprintw(win, 12, (width - (18 + strlen(new_Patient->first_name))) / 2,
+            "[Success] %s, %s added to the line.", new_Patient->first_name,
+            new_Patient->last_name);
   wattroff(win, COLOR_PAIR(1) | A_BOLD);
 
-  mvwprintw(win, 12, (width - 25) / 2, "Press any key to return...");
+  mvwprintw(win, 14, (width - 25) / 2, "Press any key to return...");
   wrefresh(win);
   wgetch(win); // Wait for user to read success message
 }
 
-void serving_patient(WINDOW *win, int width, int height)
+void serving_patient(WINDOW *win, int width, int height, Patient_Queue *queue)
 {
   werase(win);
   box(win, 0, 0);
@@ -82,11 +79,38 @@ void serving_patient(WINDOW *win, int width, int height)
   mvwprintw(win, 2, (width - 16) / 2, "NOW SERVING");
   wattroff(win, A_BOLD);
   mvwhline(win, 3, 2, ACS_HLINE, width - 4);
-  mvwprintw(win, 7, 4, "Patient: ");
-  mvwprintw(win, 9, 4, "Room: Examination Room B");
-  wrefresh(win);
+  if (queue->head != NULL)
+  {
+    Patient_Node *var = *queue->head;
+    mvwprintw(win, 5, 4, "Patient: %s, %s", var->first_name);
+    mvwprintw(win, 7, 4, "Room: Examination Room B");
+    wrefresh(win);
+    // Patient_Node *temp = HEAD;
+    queue->head = var->next_patient;
+    free(var);
+  }
+  else
+  {
+    mvwprintw(win, 7, 4, "No Patient on the line");
+    wrefresh(win);
+  }
   mvwprintw(win, 12, (width - 25) / 2, "Press any key to return...");
   wrefresh(win);
-  wgetch(win); // Wait for user
+  wgetch(win);
   return;
+}
+
+void view_line(WINDOW *win, int width, Patient_Queue *queue)
+{
+  Patient_Node *Current = queue->head;
+  werase(win);
+  box(win, 0, 0);
+  wattron(win, A_BOLD);
+  mvwprintw(win, 2, (width - 16) / 2, "LINE");
+  wattroff(win, A_BOLD);
+  mvwhline(win, 3, 2, ACS_HLINE, width - 4);
+  while (queue->head)
+  {
+    // mvwprintw(win, 5, 4, "Patient: %s, %s", HEAD->First_Name, HEAD->Last_Name);
+  }
 }
