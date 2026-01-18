@@ -6,9 +6,10 @@
 
 Patient_Node *create_patient_node(Patient_Queue *queue)
 {
-  Patient_Node *Patient = malloc(sizeof(Patient_Node));
+  Patient_Node *Patient = calloc(1, sizeof(Patient_Node));
   if (Patient == NULL)
   {
+    // TODO Implement a error val
     puts("Allocation failed");
     return NULL;
   }
@@ -31,7 +32,7 @@ void register_patient(WINDOW *win, int width, int height, Patient_Queue *queue)
 {
   Patient_Node *new_Patient = create_patient_node(queue);
 
-  // 1. Clear the inside of the existing box
+  // Clear the inside of the existing box
   werase(win);
   box(win, 0, 0);
   wattron(win, A_BOLD);
@@ -39,7 +40,7 @@ void register_patient(WINDOW *win, int width, int height, Patient_Queue *queue)
   wattroff(win, A_BOLD);
   mvwhline(win, 3, 2, ACS_HLINE, width - 4);
 
-  // 2. Enable typing visibility
+  // Enable typing visibility
   echo();
   curs_set(1); // Show cursor for typing
   // Safe input for strings
@@ -57,7 +58,7 @@ void register_patient(WINDOW *win, int width, int height, Patient_Queue *queue)
   wgetnstr(win, age_str, 9);
   new_Patient->age = atoi(age_str);
 
-  // 3. Success Message
+  // Success Message
   noecho();
   curs_set(0);
   wattron(win, COLOR_PAIR(1) | A_BOLD); // Assuming color 1 is green
@@ -81,17 +82,17 @@ void serving_patient(WINDOW *win, int width, int height, Patient_Queue *queue)
   mvwhline(win, 3, 2, ACS_HLINE, width - 4);
   if (queue->head != NULL)
   {
-    Patient_Node *var = *queue->head;
-    mvwprintw(win, 5, 4, "Patient: %s, %s", var->first_name);
+    Patient_Node *current_patient = queue->head;
+    mvwprintw(win, 5, 4, "Patient: %s", current_patient->first_name);
     mvwprintw(win, 7, 4, "Room: Examination Room B");
     wrefresh(win);
-    // Patient_Node *temp = HEAD;
-    queue->head = var->next_patient;
-    free(var);
+
+    queue->head = current_patient->next_patient;
+    free(current_patient);
   }
   else
   {
-    mvwprintw(win, 7, 4, "No Patient on the line");
+    mvwprintw(win, 7, 4, "There is no Patient on the queue");
     wrefresh(win);
   }
   mvwprintw(win, 12, (width - 25) / 2, "Press any key to return...");
@@ -99,6 +100,7 @@ void serving_patient(WINDOW *win, int width, int height, Patient_Queue *queue)
   wgetch(win);
   return;
 }
+
 
 void view_line(WINDOW *win, int width, Patient_Queue *queue)
 {
