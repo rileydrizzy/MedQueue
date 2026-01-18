@@ -20,12 +20,42 @@ typedef struct
   Patient_Node *tail;
 } Patient_Queue;
 
+/**
+ * @brief Allocates a new patient node and appends it to the end of the queue.
+ *
+ * @param queue Pointer to the Patient_Queue to add the node to.
+ * @return Pointer to the created Patient_Node, or NULL on allocation failure.
+ */
 Patient_Node *create_patient_node(Patient_Queue *queue);
 
-void serving_patient(WINDOW *win, int width, int height, Patient_Queue *queue);
-
+/**
+ * @brief Displays a form to register a new patient and adds them to the queue.
+ *
+ * @param win Pointer to the ncurses window for display.
+ * @param width Width of the window.
+ * @param height Height of the window.
+ * @param queue Pointer to the Patient_Queue to add the patient to.
+ */
 void register_patient(WINDOW *win, int width, int height, Patient_Queue *queue);
 
+/**
+ * @brief Serves the next patient in the queue, removing them from the head.
+ * Displays the patient's name and assigned room.
+ *
+ * @param win Pointer to the ncurses window for display.
+ * @param width Width of the window.
+ * @param height Height of the window.
+ * @param queue Pointer to the Patient_Queue to serve from.
+ */
+void serving_patient(WINDOW *win, int width, int height, Patient_Queue *queue);
+
+/**
+ * @brief Displays the current list of patients waiting in the queue.
+ *
+ * @param win Pointer to the ncurses window for display.
+ * @param width Width of the window.
+ * @param queue Pointer to the Patient_Queue to view.
+ */
 void view_line(WINDOW *win, int width, Patient_Queue *queue);
 
 #endif
