@@ -8,9 +8,9 @@
 typedef struct Patient_Node
 {
   int id;
-  char first_name[20];
-  char last_name[20];
   int age;
+  char first_name[30];
+  char last_name[30];
   struct Patient_Node *next_patient;
 } Patient_Node;
 
@@ -20,7 +20,7 @@ typedef struct
   Patient_Node *tail;
 } Patient_Queue;
 
-Patient_Node *alloc_patient(Patient_Queue *queue);
+Patient_Node *create_patient_node(Patient_Queue *queue);
 
 void serving_patient(WINDOW *win, int width, int height, Patient_Queue *queue);
 

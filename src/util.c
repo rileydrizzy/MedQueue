@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-Patient_Node *alloc_patient(Patient_Queue *queue)
+Patient_Node *create_patient_node(Patient_Queue *queue)
 {
   Patient_Node *Patient = malloc(sizeof(Patient_Node));
   if (Patient == NULL)
@@ -29,7 +29,7 @@ Patient_Node *alloc_patient(Patient_Queue *queue)
 
 void register_patient(WINDOW *win, int width, int height, Patient_Queue *queue)
 {
-  Patient_Node *new_Patient = alloc_patient(queue);
+  Patient_Node *new_Patient = create_patient_node(queue);
 
   // 1. Clear the inside of the existing box
   werase(win);
