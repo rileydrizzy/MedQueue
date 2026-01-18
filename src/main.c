@@ -4,11 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-
 int main(void)
 {
-  Patient_Queue *Q;
+  Patient_Queue Q = {0};
+
   initscr();
   start_color();
   noecho();
@@ -47,17 +46,19 @@ int main(void)
     {
       if (highlight == 0)
       {
-        register_patient(menu_win, width, height, Q);
+        register_patient(menu_win, width, height, &Q);
       }
       else if (highlight == 1)
       {
-        serving_patient(menu_win, width, height, Q);
+        serving_patient(menu_win, width, height, &Q);
       }
       else if (highlight == 2)
       {
+        // TODO Emergency Admit
       }
       else if (highlight == 3)
       {
+        // TODO imp view queue
       }
       else if (highlight == 4)
       {
