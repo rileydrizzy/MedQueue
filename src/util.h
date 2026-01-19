@@ -1,3 +1,11 @@
+/**
+ * @file util.h
+ * @brief Header file containing definitions and function prototypes for the MedQueue application.
+ *
+ * This file defines the patient structure, the queue structure, and declares functions
+ * for creating nodes, registering patients, serving patients, and viewing the queue.
+ */
+
 #ifndef UTIL_H
 #define UTIL_H
 
@@ -24,30 +32,30 @@ typedef struct
  * @brief Allocates a new patient node and appends it to the end of the queue.
  *
  * @param queue Pointer to the Patient_Queue to add the node to.
+ * @param er_mode If true, adds to the front (Emergency). Otherwise, adds to the end.
  * @return Pointer to the created Patient_Node, or NULL on allocation failure.
  */
-Patient_Node *create_patient_node(Patient_Queue *queue);
+Patient_Node *create_patient_node(Patient_Queue *queue, bool er_mode);
 
 /**
  * @brief Displays a form to register a new patient and adds them to the queue.
  *
  * @param win Pointer to the ncurses window for display.
  * @param width Width of the window.
- * @param height Height of the window.
  * @param queue Pointer to the Patient_Queue to add the patient to.
+ * @param er_mode If true, registers as an emergency patient.
  */
-void register_patient(WINDOW *win, int width, int height, Patient_Queue *queue);
+void register_patient(WINDOW *win, int width, Patient_Queue *queue, bool er_mode);
 
 /**
- * @brief Serves the next patient in the queue, removing them from the head.
+ * @brief Serves the next patient in the queue.
  * Displays the patient's name and assigned room.
  *
  * @param win Pointer to the ncurses window for display.
  * @param width Width of the window.
- * @param height Height of the window.
  * @param queue Pointer to the Patient_Queue to serve from.
  */
-void serving_patient(WINDOW *win, int width, int height, Patient_Queue *queue);
+void serving_patient(WINDOW *win, int width, Patient_Queue *queue);
 
 /**
  * @brief Displays the current list of patients waiting in the queue.
