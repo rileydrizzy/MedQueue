@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 Patient_Node *create_patient_node(Patient_Queue *queue, bool er_mode)
 {
@@ -115,15 +116,56 @@ void serving_patient(WINDOW *win, int width, Patient_Queue *queue)
 // BUG Segfault when running
 void view_line(WINDOW *win, int width, Patient_Queue *queue)
 {
-  Patient_Node *Current = queue->head;
   werase(win);
   box(win, 0, 0);
   wattron(win, A_BOLD);
   mvwprintw(win, 2, (width - 16) / 2, "LINE");
   wattroff(win, A_BOLD);
   mvwhline(win, 3, 2, ACS_HLINE, width - 4);
-  while (queue->head)
+  wrefresh(win);
+  if (queue->head == NULL)
   {
-    // mvwprintw(win, 5, 4, "Patient: %s, %s", HEAD->First_Name, HEAD->Last_Name);
+    mvwprintw(win, 5, (width - 20) / 2, "There No Queue");
   }
-}
+  else
+  {
+
+    Patient_Node *current = queue->head;
+    int i = 0;
+    int display_y = 5; // Starting Y position for displaying patients
+
+    while (current != NULL && i < 5) // Display up to 10 patients
+    {
+      mvwprintw(win, display_y + (i * 2), 4, "%d. %s %s (Patient ID: %d)", i + 1,
+                current->first_name, current->last_name, current->id);
+      current = current->next_patient;
+      i++;
+    }
+    if (current != NULL)
+    {
+      while (true)
+      {
+        mvwprintw(win, display_y + (i * 2), 4, "Press N to see the or Q to Quit"); // Indicate more patients
+        char c = wgetch(win);
+        if (tolower(c) == 'q')
+        {
+          return;
+        }
+        else if
+        {
+          i = 0;
+        }
+        else
+        {
+          mvwprintw(win, display_y + (i * 2), 4, "Invalid option select try again");
+          nodelay()
+          continue;
+        }
+      }
+      mvwprintw(win, 16, (width - 25) / 2, "Press any key to return...");
+      wrefresh(win);
+      wgetch(win); // Wait for user to read success message
+      return;
+    }
+  }
+  // void clean_up();

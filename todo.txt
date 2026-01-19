@@ -33,9 +33,6 @@ Close Clinic (Exit):
 
 When the user chooses to exit, the program must ensure all remaining patients in the list are removed and their memory is free()'d before the program terminates.
 
-Technical Requirements
-Data Structure: You must use a struct that contains the data and a next pointer.
-
 sudo apt update
 sudo apt install libcurses5-dev libcursesw5-dev
 sudo apt install libncurses-dev

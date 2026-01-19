@@ -11,8 +11,8 @@ PROGRAM = medqueue
 $(PROGRAM): $(SRC)
 	$(CC) $(CCFLAGS) $(SRC) -o $(PROGRAM)
 
-run: 
+run: $(PROGRAM)
 	./$(PROGRAM)
 
 dev:
-	$(CC) $(CCFLAGS) dev.c -o $(dev) && ./dev
+	$(CC) $(CCFLAGS) dev.c -o dev && ./dev

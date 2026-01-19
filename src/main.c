@@ -1,3 +1,15 @@
+/**
+ * @file main.c
+ * @author Ladipo Ipadeola
+ * @brief Entry point for the MedQueue application.
+ *
+ * This file contains the main function which initializes the ncurses interface,
+ * manages the main menu loop, and handles user input to drive the application logic.
+ * @version 1.0
+ * @date 19-01-2026
+ * @copyright Copyright (c) 2026
+ */
+
 #include "util.h"
 #include <ncurses.h>
 #include <stdio.h>
@@ -47,19 +59,21 @@ int main(void)
     {
       if (highlight == 0)
       {
-        register_patient(menu_win, width, height, &Q);
+        register_patient(menu_win, width, &Q, false);
       }
       else if (highlight == 1)
       {
-        serving_patient(menu_win, width, height, &Q);
+        serving_patient(menu_win, width, &Q);
       }
       else if (highlight == 2)
       {
         // TODO Emergency Admit
+        register_patient(menu_win, width, &Q, true);
       }
       else if (highlight == 3)
       {
         // TODO imp view queue
+        view_line(menu_win, width, &Q);
       }
       else if (highlight == 4)
       {
