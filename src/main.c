@@ -20,7 +20,7 @@ int main(void)
   const char *choices[] = {"1. Register Patient", "2. Serve Patient",
                            "3. Emergency Admit", "4. View Line", "5. Exit"};
   int n_choices = 5, highlight = 0;
-  int height = 15, width = 50;
+  int height = 20, width = 55;
   int start_y = (LINES - height) / 2, start_x = (COLS - width) / 2;
 
   WINDOW *menu_win = newwin(height, width, start_y, start_x);
@@ -30,7 +30,8 @@ int main(void)
   {
     werase(menu_win);
     box(menu_win, 0, 0);
-    mvwprintw(menu_win, 2, (width - 26) / 2, "=== MedQueue Clinic System ===");
+    mvwprintw(menu_win, 2, (width - 35) / 2, "====== MedQueue Clinic System ======");
+    mvwhline(menu_win, 3, 2, ACS_HLINE, width - 4);
     for (int i = 0; i < n_choices; i++)
     {
       if (i == highlight)
