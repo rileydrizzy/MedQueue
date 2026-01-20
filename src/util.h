@@ -13,23 +13,37 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+ * @brief Represents a node in the linked list of patients.
+ *
+ * Contains the patient's personal information and a pointer to the next patient in the queue.
+ */
 typedef struct Patient_Node
 {
-  int id;
-  int age;
-  char first_name[30];
-  char last_name[30];
-  struct Patient_Node *next_patient;
+  int id;                            /**< Unique identifier for the patient, four digits. */
+  int age;                           /**< Age of the patient. */
+  char first_name[30];               /**< Patient's first name. */
+  char last_name[30];                /**< Patient's last name. */
+  struct Patient_Node *next_patient; /**< Pointer to the next patient in the queue. */
 } Patient_Node;
 
+/**
+ * @brief Represents the queue of patients.
+ *
+ * Maintains pointers to the head (front) and tail (end) of the linked list
+ * to allow for efficient enqueueing and dequeueing operations.
+ */
 typedef struct
 {
-  Patient_Node *head;
-  Patient_Node *tail;
+  Patient_Node *head; /**< Pointer to the first patient in the queue (next to be served). */
+  Patient_Node *tail; /**< Pointer to the last patient in the queue (most recently added). */
 } Patient_Queue;
 
 /**
- * @brief Allocates a new patient node and appends it to the end of the queue.
+ * @brief Allocates a new patient node and adds it to the queue.
+ *
+ * Depending on the mode, the patient is added either to the end (standard)
+ * or the front (emergency) of the queue.
  *
  * @param queue Pointer to the Patient_Queue to add the node to.
  * @param er_mode If true, adds to the front (Emergency). Otherwise, adds to the end.
