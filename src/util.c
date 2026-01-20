@@ -4,25 +4,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
-Patient_Node *create_patient_node(Patient_Queue *queue, bool er_mode) {
+Patient_Node *create_patient_node(Patient_Queue *queue, bool er_mode)
+{
   Patient_Node *patient = calloc(1, sizeof(Patient_Node));
-  if (patient == NULL) {
+  if (patient == NULL)
+  {
     // TODO Implement a error val
     puts("Allocation failed");
     return NULL;
   }
   patient->next_patient = NULL;
-  if (queue->head == NULL) {
+  if (queue->head == NULL)
+  {
     queue->head = patient;
     queue->tail = patient;
     return patient;
-  } else {
-    if (er_mode) {
+  }
+  else
+  {
+    if (er_mode)
+    {
       patient->next_patient = queue->head;
       queue->head = patient;
       return patient;
-    } else {
+    }
+    else
+    {
       queue->tail->next_patient = patient;
       queue->tail = patient;
       return patient;
@@ -31,7 +40,8 @@ Patient_Node *create_patient_node(Patient_Queue *queue, bool er_mode) {
 }
 
 void register_patient(WINDOW *win, int width, Patient_Queue *queue,
-                      bool er_mode) {
+                      bool er_mode)
+{
   Patient_Node *new_patient = create_patient_node(queue, er_mode);
 
   // Clear the inside of the existing box
@@ -45,12 +55,13 @@ void register_patient(WINDOW *win, int width, Patient_Queue *queue,
   // Enable typing visibility
   echo();
   curs_set(1); // Show cursor for typing
+
   // Safe input for strings
   mvwprintw(win, 5, 4, "Enter Patient First Name: ");
-  wgetnstr(win, new_patient->first_name, 49);
+  wgetnstr(win, new_patient->first_name, 29);
 
   mvwprintw(win, 7, 4, "Enter Patient Last Name: ");
-  wgetnstr(win, new_patient->last_name, 49);
+  wgetnstr(win, new_patient->last_name, 29);
   // char p_initial;
   // p_initial = new_patient->last_name[0]; // TODO add p.inital to be show on
   // display
@@ -58,9 +69,15 @@ void register_patient(WINDOW *win, int width, Patient_Queue *queue,
   wrefresh(win);
 
   // Using scanw style for age
-  char age_str[4];
-  wgetnstr(win, age_str, 9);
-  new_patient->age = atoi(age_str);
+  char input_buffer[5];
+  wgetnstr(win, input_buffer, 3);
+  new_patient->age = atoi(input_buffer);
+  // Set Patient ID
+  mvwprintw(win, 11, 4, "Enter Patient ID: ");
+  wrefresh(win);
+  memset(input_buffer, '\0', sizeof(input_buffer));
+  wgetnstr(win, input_buffer, 4);
+  new_patient->age = atoi(input_buffer);
 
   // Success Message
   noecho();
@@ -77,22 +94,29 @@ void register_patient(WINDOW *win, int width, Patient_Queue *queue,
   return;
 }
 
-void serving_patient(WINDOW *win, int width, Patient_Queue *queue) {
+void serving_patient(WINDOW *win, int width, Patient_Queue *queue)
+{
   werase(win);
   box(win, 0, 0);
   wattron(win, A_BOLD);
   mvwprintw(win, 2, (width - 16) / 2, "NOW SERVING");
   wattroff(win, A_BOLD);
   mvwhline(win, 3, 2, ACS_HLINE, width - 4);
-  if (queue->head != NULL) {
+  if (queue->head != NULL)
+  {
+    srand(time(NULL));
+    int i = rand() % 10;
+    char room[5] = {'A', 'B', 'C', 'D', 'E'};
     Patient_Node *current_patient = queue->head;
     mvwprintw(win, 5, 4, "Patient: %s", current_patient->first_name);
-    mvwprintw(win, 7, 4, "Room: Examination Room B");
+    mvwprintw(win, 7, 4, "Room: Examination Room %c", room[i]);
     wrefresh(win);
 
     queue->head = current_patient->next_patient;
     free(current_patient);
-  } else {
+  }
+  else
+  {
     mvwprintw(win, 7, 4, "There is no Patient on the queue");
     wrefresh(win);
   }
@@ -102,8 +126,9 @@ void serving_patient(WINDOW *win, int width, Patient_Queue *queue) {
   return;
 }
 
-// BUG Segfault when running
-void view_line(WINDOW *win, int width, Patient_Queue *queue) {
+void view_line(WINDOW *win, int width, Patient_Queue *queue)
+{
+
   werase(win);
   box(win, 0, 0);
   wattron(win, A_BOLD);
@@ -111,41 +136,69 @@ void view_line(WINDOW *win, int width, Patient_Queue *queue) {
   wattroff(win, A_BOLD);
   mvwhline(win, 3, 2, ACS_HLINE, width - 4);
   wrefresh(win);
-  if (queue->head == NULL) {
-    mvwprintw(win, 5, (width - 20) / 2, "There No Queue");
-  } else {
+  if (queue->head == NULL)
+  {
+    mvwprintw(win, 5, (width - 32) / 2, "There is no Patient on the queue");
+    mvwprintw(win, 16, (width - 25) / 2, "Press any key to return...");
+    wrefresh(win);
+    wgetch(win); // Wait for user to read success message
+    return;
+  }
+  else
+  {
 
     Patient_Node *current = queue->head;
     int i = 0;
+    int total_count = 0;
     int display_y = 5; // Starting Y position for displaying patients
-    do {
-      while (current != NULL && i < 5) // Display up to 10 patients
+
+    while (current != NULL)
+    {
+      // Clear and redraw for pagination
+      werase(win);
+      box(win, 0, 0);
+      wattron(win, A_BOLD);
+      mvwprintw(win, 2, (width - 16) / 2, "LINE");
+      wattroff(win, A_BOLD);
+      mvwhline(win, 3, 2, ACS_HLINE, width - 4);
+
+      i = 0;
+      while (current != NULL && i < 5) // Display up to 5 patients
       {
         mvwprintw(win, display_y + (i * 2), 4, "%d. %s %s (Patient ID: %d)",
-                  i + 1, current->first_name, current->last_name, current->id);
+                  total_count + 1, current->first_name, current->last_name, current->id);
         current = current->next_patient;
         i++;
+        total_count++;
       }
-      if (current != NULL) {
-        while (true) {
-          mvwprintw(
-              win, display_y + (i * 2), 4,
-              "Press N to see the or Q to Quit"); // Indicate more patients
-          char c = wgetch(win);
-          if (tolower(c) == 'q') {
+
+      if (current != NULL)
+      {
+        mvwprintw(win, display_y + (i * 2), 4, "Press N for next page or Q to Quit");
+        wrefresh(win);
+
+        bool next_page = false;
+        while (true)
+        {
+          int c = wgetch(win);
+          if (tolower(c) == 'q')
             return;
-          } else if {
-            i = 0;
-          } else {
-            mvwprintw(win, display_y + (i * 2), 4,
-                      "Invalid option select try again");
-            nodelay() continue;
+          if (tolower(c) == 'n')
+          {
+            next_page = true;
+            break;
           }
         }
+        if (next_page)
+          continue;
+      }
+      else
+      {
         mvwprintw(win, 16, (width - 25) / 2, "Press any key to return...");
         wrefresh(win);
-        wgetch(win); // Wait for user to read success message
+        wgetch(win);
         return;
       }
     }
-  // void clean_up();
+  }
+}

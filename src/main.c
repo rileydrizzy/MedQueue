@@ -67,12 +67,11 @@ int main(void)
       }
       else if (highlight == 2)
       {
-        // TODO Emergency Admit
         register_patient(menu_win, width, &Q, true);
       }
       else if (highlight == 3)
       {
-        // TODO imp view queue
+
         view_line(menu_win, width, &Q);
       }
       else if (highlight == 4)

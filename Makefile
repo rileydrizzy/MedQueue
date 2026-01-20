@@ -14,5 +14,5 @@ $(PROGRAM): $(SRC)
 run: $(PROGRAM)
 	./$(PROGRAM)
 
-dev:
-	$(CC) $(CCFLAGS) dev.c -o dev && ./dev
+dev: dev.c
+	clang -Wall -Wextra -Wpedantic dev.c -o dev && ./dev
