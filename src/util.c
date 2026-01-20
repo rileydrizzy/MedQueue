@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 
 Patient_Node *create_patient_node(Patient_Queue *queue, bool er_mode)
 {
@@ -62,9 +61,7 @@ void register_patient(WINDOW *win, int width, Patient_Queue *queue,
 
   mvwprintw(win, 7, 4, "Enter Patient Last Name: ");
   wgetnstr(win, new_patient->last_name, 29);
-  // char p_initial;
-  // p_initial = new_patient->last_name[0]; // TODO add p.inital to be show on
-  // display
+
   mvwprintw(win, 9, 4, "Enter Patient Age: ");
   wrefresh(win);
 
@@ -77,7 +74,7 @@ void register_patient(WINDOW *win, int width, Patient_Queue *queue,
   wrefresh(win);
   memset(input_buffer, '\0', sizeof(input_buffer));
   wgetnstr(win, input_buffer, 4);
-  new_patient->age = atoi(input_buffer);
+  new_patient->id = atoi(input_buffer);
 
   // Success Message
   noecho();
@@ -104,11 +101,11 @@ void serving_patient(WINDOW *win, int width, Patient_Queue *queue)
   mvwhline(win, 3, 2, ACS_HLINE, width - 4);
   if (queue->head != NULL)
   {
-    srand(time(NULL));
-    int i = rand() % 10;
+    int i = rand() % 5;
     char room[5] = {'A', 'B', 'C', 'D', 'E'};
     Patient_Node *current_patient = queue->head;
     mvwprintw(win, 5, 4, "Patient: %s", current_patient->first_name);
+    mvwprintw(win, 6, 4, "Patient ID: %d", current_patient->id);
     mvwprintw(win, 7, 4, "Room: Examination Room %c", room[i]);
     wrefresh(win);
 
@@ -149,7 +146,7 @@ void view_line(WINDOW *win, int width, Patient_Queue *queue)
 
     Patient_Node *current = queue->head;
     int i = 0;
-    int total_count = 0;
+    int total_count = 0, index = 0;
     int display_y = 5; // Starting Y position for displaying patients
 
     while (current != NULL)
@@ -166,9 +163,10 @@ void view_line(WINDOW *win, int width, Patient_Queue *queue)
       while (current != NULL && i < 5) // Display up to 5 patients
       {
         mvwprintw(win, display_y + (i * 2), 4, "%d. %s %s (Patient ID: %d)",
-                  total_count + 1, current->first_name, current->last_name, current->id);
+                  index + 1, current->first_name, current->last_name, current->id);
         current = current->next_patient;
         i++;
+        index++;
         total_count++;
       }
 
@@ -194,6 +192,7 @@ void view_line(WINDOW *win, int width, Patient_Queue *queue)
       }
       else
       {
+        mvwprintw(win, 14, (width - 37) / 2, "Total count of patients waiting: %d \n", total_count);
         mvwprintw(win, 16, (width - 25) / 2, "Press any key to return...");
         wrefresh(win);
         wgetch(win);

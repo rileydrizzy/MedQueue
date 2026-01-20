@@ -15,11 +15,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 int main(void)
 {
   Patient_Queue Q = {0};
 
+  srand(time(NULL));
   initscr();
   start_color();
   noecho();
