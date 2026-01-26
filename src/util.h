@@ -3,7 +3,8 @@
  * @brief Header file containing definitions and function prototypes for the MedQueue application.
  *
  * This file defines the patient structure, the queue structure, and declares functions
- * for creating nodes, registering patients, serving patients, and viewing the queue.
+ * for creating nodes, registering patients, serving patients, viewing the queue,
+ * and cleaning up resources.
  */
 
 #ifndef UTIL_H
@@ -79,5 +80,15 @@ void serving_patient(WINDOW *win, int width, Patient_Queue *queue);
  * @param queue Pointer to the Patient_Queue to view.
  */
 void view_line(WINDOW *win, int width, Patient_Queue *queue);
+
+/**
+ * @brief Frees all memory associated with the patient queue.
+ *
+ * Iterates through the linked list and frees each patient node.
+ * Should be called before the program exits to prevent memory leaks.
+ *
+ * @param queue Pointer to the Patient_Queue to clean up.
+ */
+void clean_up(Patient_Queue *queue);
 
 #endif
