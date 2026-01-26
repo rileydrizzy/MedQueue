@@ -201,3 +201,14 @@ void view_line(WINDOW *win, int width, Patient_Queue *queue)
     }
   }
 }
+
+void clean_up(Patient_Queue *queue)
+{
+  Patient_Node *current = queue->head;
+  while (current)
+  {
+    Patient_Node *temp_node = current;
+    current = current->next_patient;
+    free(temp_node);
+  }
+}

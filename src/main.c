@@ -19,7 +19,7 @@
 
 int main(void)
 {
-  Patient_Queue Q = {0};
+  Patient_Queue main_queue = {0};
 
   srand(time(NULL));
   initscr();
@@ -61,23 +61,25 @@ int main(void)
     {
       if (highlight == 0)
       {
-        register_patient(menu_win, width, &Q, false);
+        register_patient(menu_win, width, &main_queue, false);
       }
       else if (highlight == 1)
       {
-        serving_patient(menu_win, width, &Q);
+        serving_patient(menu_win, width, &main_queue);
       }
       else if (highlight == 2)
       {
-        register_patient(menu_win, width, &Q, true);
+        register_patient(menu_win, width, &main_queue, true);
       }
       else if (highlight == 3)
       {
 
-        view_line(menu_win, width, &Q);
+        view_line(menu_win, width, &main_queue);
       }
       else if (highlight == 4)
       {
+        // Free up the Queue
+        clean_up(&main_queue);
         break; // Exit
       }
     }
