@@ -2,7 +2,7 @@
 
 CC = clang
 
-CCFLAGS = -Wall -Wextra -Wpedantic -lncurses -lform -lmenu
+CCFLAGS = -Wall -Wextra -Wpedantic -lncurses
 
 SRC = src/main.c src/util.c
 
@@ -14,5 +14,6 @@ $(PROGRAM): $(SRC)
 run: $(PROGRAM)
 	./$(PROGRAM)
 
-dev: dev.c
-	clang -Wall -Wextra -Wpedantic dev.c -o dev && ./dev
+debug:
+	$(CC) $(CCFLAGS) -g $(SRC) -o $(PROGRAM)
+	gdb ./$(PROGRAM)
