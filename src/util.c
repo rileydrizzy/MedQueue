@@ -108,7 +108,8 @@ void serving_patient(WINDOW *win, int width, Patient_Queue *queue)
     mvwprintw(win, 6, 4, "Patient ID: %d", current_patient->id);
     mvwprintw(win, 7, 4, "Room: Examination Room %c", room[i]);
     wrefresh(win);
-
+    if (current_patient->next_patient == NULL)
+      queue->tail = NULL;
     queue->head = current_patient->next_patient;
     free(current_patient);
   }
@@ -211,4 +212,6 @@ void clean_up(Patient_Queue *queue)
     current = current->next_patient;
     free(temp_node);
   }
+  queue->head = NULL;
+  queue->tail = NULL;
 }
