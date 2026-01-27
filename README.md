@@ -54,5 +54,3 @@ make
 *   `src/util.c`: Implementation of core logic, including linked list operations and UI rendering functions.
 *   `src/util.h`: Header file defining data structures (`Patient_Node`, `Patient_Queue`) and function prototypes.
 
-## Author
-**Ladipo Ipadeola**
