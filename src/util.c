@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-Patient_Node *create_patient_node(Patient_Queue *queue, bool er_mode)
+Patient_Node *create_patient_node(Patient_Queue *queue, bool ER_mode)
 {
   Patient_Node *patient = calloc(1, sizeof(Patient_Node));
   if (patient == NULL)
@@ -23,7 +23,7 @@ Patient_Node *create_patient_node(Patient_Queue *queue, bool er_mode)
   }
   else
   {
-    if (er_mode)
+    if (ER_mode)
     {
       patient->next_patient = queue->head;
       queue->head = patient;
@@ -39,9 +39,9 @@ Patient_Node *create_patient_node(Patient_Queue *queue, bool er_mode)
 }
 
 void register_patient(WINDOW *win, int width, Patient_Queue *queue,
-                      bool er_mode)
+                      bool ER_mode)
 {
-  Patient_Node *new_patient = create_patient_node(queue, er_mode);
+  Patient_Node *new_patient = create_patient_node(queue, ER_mode);
 
   // Clear the inside of the existing box
   werase(win);
