@@ -50,7 +50,7 @@ typedef struct
  * @param er_mode If true, adds to the front (Emergency). Otherwise, adds to the end.
  * @return Pointer to the created Patient_Node, or NULL on allocation failure.
  */
-Patient_Node *create_patient_node(Patient_Queue *queue, bool er_mode);
+Patient_Node *create_patient_node(Patient_Queue *queue, bool ER_mode);
 
 /**
  * @brief Displays a form to register a new patient and adds them to the queue.
@@ -60,7 +60,7 @@ Patient_Node *create_patient_node(Patient_Queue *queue, bool er_mode);
  * @param queue Pointer to the Patient_Queue to add the patient to.
  * @param er_mode If true, registers as an emergency patient.
  */
-void register_patient(WINDOW *win, int width, Patient_Queue *queue, bool er_mode);
+void register_patient(WINDOW *win, int width, Patient_Queue *queue, bool ER_mode);
 
 /**
  * @brief Serves the next patient in the queue.
