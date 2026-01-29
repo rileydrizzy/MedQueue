@@ -14,6 +14,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define NAME_LENGTH 30
+
 /**
  * @brief Represents a node in the linked list of patients.
  *
@@ -23,8 +25,8 @@ typedef struct Patient_Node
 {
   int id;                            /**< Unique identifier for the patient, four digits. */
   int age;                           /**< Age of the patient. */
-  char first_name[30];               /**< Patient's first name. */
-  char last_name[30];                /**< Patient's last name. */
+  char first_name[NAME_LENGTH];      /**< Patient's first name. */
+  char last_name[NAME_LENGTH];       /**< Patient's last name. */
   struct Patient_Node *next_patient; /**< Pointer to the next patient in the queue. */
 } Patient_Node;
 

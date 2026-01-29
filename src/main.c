@@ -57,7 +57,7 @@ int main(void)
     wrefresh(menu_win);
 
     int c = wgetch(menu_win);
-    if (c == 10)
+    if (c == '\n')
     {
       if (highlight == 0)
       {

@@ -58,10 +58,10 @@ void register_patient(WINDOW *win, int width, Patient_Queue *queue,
 
   // Safe input for strings
   mvwprintw(win, 5, 4, "Enter Patient First Name: ");
-  wgetnstr(win, new_patient->first_name, 29);
+  wgetnstr(win, new_patient->first_name, NAME_LENGTH - 1);
 
   mvwprintw(win, 7, 4, "Enter Patient Last Name: ");
-  wgetnstr(win, new_patient->last_name, 29);
+  wgetnstr(win, new_patient->last_name, NAME_LENGTH - 1);
 
   mvwprintw(win, 9, 4, "Enter Patient Age: ");
   wrefresh(win);
