@@ -69,6 +69,7 @@ void register_patient(WINDOW *win, int width, Patient_Queue *queue,
   char input_buffer[5];
   wgetnstr(win, input_buffer, 3);
   new_patient->age = atoi(input_buffer);
+  strtod()
   // Set Patient ID
   mvwprintw(win, 11, 4, "Enter Patient ID: ");
   wrefresh(win);
