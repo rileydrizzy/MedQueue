@@ -42,7 +42,8 @@ void register_patient(WINDOW *win, int width, Patient_Queue *queue,
                       bool ER_mode)
 {
   Patient_Node *new_patient = create_patient_node(queue, ER_mode);
-
+  if (new_patient == NULL)
+    return;
   // Clear the inside of the existing box
   werase(win);
   box(win, 0, 0);
@@ -69,7 +70,7 @@ void register_patient(WINDOW *win, int width, Patient_Queue *queue,
   char input_buffer[5];
   wgetnstr(win, input_buffer, 3);
   new_patient->age = atoi(input_buffer);
-  strtod()
+  // BUG  strtod()
   // Set Patient ID
   mvwprintw(win, 11, 4, "Enter Patient ID: ");
   wrefresh(win);
@@ -109,7 +110,7 @@ void serving_patient(WINDOW *win, int width, Patient_Queue *queue)
     mvwprintw(win, 6, 4, "Patient ID: %d", current_patient->id);
     mvwprintw(win, 7, 4, "Room: Examination Room %c", room[i]);
     wrefresh(win);
-    if (current_patient->next_patient == NULL)
+    if (current_patient->next_patient == NULL) // Check if the Node is the last patient
       queue->tail = NULL;
     queue->head = current_patient->next_patient;
     free(current_patient);
