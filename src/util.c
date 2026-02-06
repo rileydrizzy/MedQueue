@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 Patient_Node *create_patient_node(Patient_Queue *queue, bool ER_mode)
 {
@@ -63,20 +64,58 @@ void register_patient(WINDOW *win, int width, Patient_Queue *queue,
   mvwprintw(win, 7, 4, "Enter Patient Last Name: ");
   wgetnstr(win, new_patient->last_name, NAME_LENGTH - 1);
 
-  mvwprintw(win, 9, 4, "Enter Patient Age: ");
-  wrefresh(win);
-
   // Using scanw style for age
-  char input_buffer[5];
-  wgetnstr(win, input_buffer, 3);
-  new_patient->age = atoi(input_buffer);
-  // BUG  strtod()
+  do
+  {
+    mvwprintw(win, 9, 4, "Enter Patient Age: ");
+    wrefresh(win);
+    char input_buffer[5];
+    char *end_ptr;
+    wgetnstr(win, input_buffer, 3);
+    long result = strtol(input_buffer, &end_ptr, 10);
+    if (end_ptr == input_buffer)
+    {
+      mvwprintw(win, 11, 3, "Error: User typed nothing or non-digits (' abc ')");
+      wrefresh(win);
+      // printf("Try again \n");
+    }
+    else if (*end_ptr != '\0')
+    {
+      // printf(" Error: User typed garbage after the number ('123xyz')\n");
+      // printf("Try again \n");
+    }
+    else
+    {
+      new_patient->age = result;
+      break;
+    }
+  } while (true);
+
   // Set Patient ID
-  mvwprintw(win, 11, 4, "Enter Patient ID: ");
-  wrefresh(win);
-  memset(input_buffer, '\0', sizeof(input_buffer));
-  wgetnstr(win, input_buffer, 4);
-  new_patient->id = atoi(input_buffer);
+  do
+  {
+    mvwprintw(win, 11, 4, "Enter Patient ID: ");
+    wrefresh(win);
+    char input_buffer[5];
+    char *end_ptr;
+    wgetnstr(win, input_buffer, 4);
+    long result = strtol(input_buffer, &end_ptr, 10);
+    if (end_ptr == input_buffer)
+    {
+      printf("Error: User typed nothing or non-digits ('abc') \n");
+      printf("Try again \n");
+    }
+    else if (*end_ptr != '\0')
+    {
+      mvwprintw(win, 11, 4, "Error: User typed garbage after the number ('123xyz')\n");
+      printf("Try again \n");
+    }
+    else
+    {
+      new_patient->id = result;
+      break;
+    }
+  } while (true);
 
   // Success Message
   noecho();
