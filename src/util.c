@@ -58,10 +58,10 @@ void register_patient(WINDOW *win, int width, Patient_Queue *queue,
   curs_set(1); // Show cursor for typing
 
   // Safe input for strings
-  mvwprintw(win, 5, 4, "Enter Patient First Name: ");
+  mvwprintw(win, 5, 3, "Enter Patient First Name: ");
   wgetnstr(win, new_patient->first_name, NAME_LENGTH - 1);
 
-  mvwprintw(win, 7, 4, "Enter Patient Last Name: ");
+  mvwprintw(win, 7, 3, "Enter Patient Last Name: ");
   wgetnstr(win, new_patient->last_name, NAME_LENGTH - 1);
 
   // Using scanw style for age with validation loop
@@ -70,7 +70,7 @@ void register_patient(WINDOW *win, int width, Patient_Queue *queue,
   char *end_ptr;
   do
   {
-    mvwprintw(win, 9, 4, "Enter Patient Age: ");
+    mvwprintw(win, 9, 3, "Enter Patient Age: ");
     wmove(win, 9, 23);
     wprintw(win, "    ");
     wmove(win, 9, 23);
@@ -106,7 +106,7 @@ void register_patient(WINDOW *win, int width, Patient_Queue *queue,
   // Set Patient ID
   do
   {
-    mvwprintw(win, 11, 4, "Enter Patient ID: ");
+    mvwprintw(win, 11, 3, "Enter Patient ID: ");
     wmove(win, 11, 23);
     wprintw(win, "    ");
     wmove(win, 11, 23);
