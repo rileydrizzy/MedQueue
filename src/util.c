@@ -11,8 +11,6 @@ Patient_Node *create_patient_node(Patient_Queue *queue, bool ER_mode)
   Patient_Node *patient = calloc(1, sizeof(Patient_Node));
   if (patient == NULL)
   {
-    // TODO Implement a error val
-    puts("Allocation failed");
     return NULL;
   }
   patient->next_patient = NULL;
@@ -44,7 +42,11 @@ void register_patient(WINDOW *win, int width, Patient_Queue *queue,
 {
   Patient_Node *new_patient = create_patient_node(queue, ER_mode);
   if (new_patient == NULL)
+  {
+    // TODO Implement a error val
+    puts("Allocation failed");
     return;
+  }
   // Clear the inside of the existing box
   werase(win);
   box(win, 0, 0);
@@ -132,7 +134,7 @@ void register_patient(WINDOW *win, int width, Patient_Queue *queue,
     else
     {
       new_patient->id = (int)parsed_val;
-      
+
       mvwprintw(win, 13, 3, "                                                   ");
       break;
     }
