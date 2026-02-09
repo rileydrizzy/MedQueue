@@ -65,7 +65,7 @@ void register_patient(WINDOW *win, int width, Patient_Queue *queue,
   wgetnstr(win, new_patient->last_name, NAME_LENGTH - 1);
 
   // Using scanw style for age with validation loop
-  long parsed_age;
+  long parsed_val;
   char input_buffer[5];
   char *end_ptr;
   do
@@ -76,7 +76,7 @@ void register_patient(WINDOW *win, int width, Patient_Queue *queue,
     wmove(win, 9, 23);
     wrefresh(win);
     wgetnstr(win, input_buffer, 3);
-    parsed_age = strtol(input_buffer, &end_ptr, 10);
+    parsed_val = strtol(input_buffer, &end_ptr, 10);
 
     if (end_ptr == input_buffer)
     {
@@ -88,14 +88,14 @@ void register_patient(WINDOW *win, int width, Patient_Queue *queue,
       mvwprintw(win, 11, 3, "Error: User typed garbage after the number ");
       continue;
     }
-    else if (parsed_age <= 0 || parsed_age > 120)
+    else if (parsed_val <= 0 || parsed_val > 120)
     {
       mvwprintw(win, 11, 3, "Error: Invalid Age (1-120)!   ");
       continue;
     }
     else
     {
-      new_patient->age = (int)parsed_age;
+      new_patient->age = (int)parsed_val;
       // CLEANUP: Wipe the error line (Row 11) with spaces before moving to the next step
       mvwprintw(win, 11, 3, "                                                   ");
       break;
@@ -112,7 +112,7 @@ void register_patient(WINDOW *win, int width, Patient_Queue *queue,
     wmove(win, 11, 23);
     wrefresh(win);
     wgetnstr(win, input_buffer, 4);
-    parsed_age = strtol(input_buffer, &end_ptr, 10);
+    parsed_val = strtol(input_buffer, &end_ptr, 10);
 
     if (end_ptr == input_buffer)
     {
@@ -124,15 +124,15 @@ void register_patient(WINDOW *win, int width, Patient_Queue *queue,
       mvwprintw(win, 13, 3, "Error: User typed garbage after the number ");
       continue;
     }
-    else if (parsed_age <= 0)
+    else if (parsed_val <= 0)
     {
       mvwprintw(win, 13, 3, "Error: Invalid Age (Negative number)!   ");
       continue;
     }
     else
     {
-      new_patient->age = (int)parsed_age;
-      // CLEANUP: Wipe the error line (Row 11) with spaces before moving to the next step
+      new_patient->id = (int)parsed_val;
+      
       mvwprintw(win, 13, 3, "                                                   ");
       break;
     }
