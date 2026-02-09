@@ -64,65 +64,87 @@ void register_patient(WINDOW *win, int width, Patient_Queue *queue,
   mvwprintw(win, 7, 4, "Enter Patient Last Name: ");
   wgetnstr(win, new_patient->last_name, NAME_LENGTH - 1);
 
-  // Using scanw style for age
+  // Using scanw style for age with validation loop
+  long parsed_age;
+  char input_buffer[5];
+  char *end_ptr;
   do
   {
     mvwprintw(win, 9, 4, "Enter Patient Age: ");
+    wmove(win, 9, 23);
+    wprintw(win, "    ");
+    wmove(win, 9, 23);
     wrefresh(win);
-    char input_buffer[5];
-    char *end_ptr;
     wgetnstr(win, input_buffer, 3);
-    long result = strtol(input_buffer, &end_ptr, 10);
+    parsed_age = strtol(input_buffer, &end_ptr, 10);
+
     if (end_ptr == input_buffer)
     {
       mvwprintw(win, 11, 3, "Error: User typed nothing or non-digits (' abc ')");
-      wrefresh(win);
-      // printf("Try again \n");
+      continue;
     }
     else if (*end_ptr != '\0')
     {
-      // printf(" Error: User typed garbage after the number ('123xyz')\n");
-      // printf("Try again \n");
+      mvwprintw(win, 11, 3, "Error: User typed garbage after the number ");
+      continue;
+    }
+    else if (parsed_age <= 0 || parsed_age > 120)
+    {
+      mvwprintw(win, 11, 3, "Error: Invalid Age (1-120)!   ");
+      continue;
     }
     else
     {
-      new_patient->age = result;
+      new_patient->age = (int)parsed_age;
+      // CLEANUP: Wipe the error line (Row 11) with spaces before moving to the next step
+      mvwprintw(win, 11, 3, "                                                   ");
       break;
     }
+
   } while (true);
 
   // Set Patient ID
   do
   {
     mvwprintw(win, 11, 4, "Enter Patient ID: ");
+    wmove(win, 11, 23);
+    wprintw(win, "    ");
+    wmove(win, 11, 23);
     wrefresh(win);
-    char input_buffer[5];
-    char *end_ptr;
     wgetnstr(win, input_buffer, 4);
-    long result = strtol(input_buffer, &end_ptr, 10);
+    parsed_age = strtol(input_buffer, &end_ptr, 10);
+
     if (end_ptr == input_buffer)
     {
-      printf("Error: User typed nothing or non-digits ('abc') \n");
-      printf("Try again \n");
+      mvwprintw(win, 13, 3, "Error: User typed nothing or non-digits (' abc ')");
+      continue;
     }
     else if (*end_ptr != '\0')
     {
-      mvwprintw(win, 11, 4, "Error: User typed garbage after the number ('123xyz')\n");
-      printf("Try again \n");
+      mvwprintw(win, 13, 3, "Error: User typed garbage after the number ");
+      continue;
+    }
+    else if (parsed_age <= 0)
+    {
+      mvwprintw(win, 13, 3, "Error: Invalid Age (Negative number)!   ");
+      continue;
     }
     else
     {
-      new_patient->id = result;
+      new_patient->age = (int)parsed_age;
+      // CLEANUP: Wipe the error line (Row 11) with spaces before moving to the next step
+      mvwprintw(win, 13, 3, "                                                   ");
       break;
     }
+
   } while (true);
 
   // Success Message
   noecho();
   curs_set(0);
   wattron(win, COLOR_PAIR(1) | A_BOLD); // Assuming color 1 is green
-  mvwprintw(win, 12, 20, "==[Success]==");
-  mvwprintw(win, 13, (width - (18 + strlen(new_patient->last_name))) / 2,
+  mvwprintw(win, 13, 20, "==[Success]==");
+  mvwprintw(win, 14, (width - (18 + strlen(new_patient->last_name))) / 2,
             "%s added to the queue.", new_patient->last_name);
   wattroff(win, COLOR_PAIR(1) | A_BOLD);
 

@@ -40,7 +40,7 @@ int main(void)
   WINDOW *menu_win = newwin(height, width, start_y, start_x);
   keypad(menu_win, TRUE);
 
-  while (1)
+  while (true)
   {
     werase(menu_win);
     box(menu_win, 0, 0);

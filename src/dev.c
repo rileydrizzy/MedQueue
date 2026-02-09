@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-
+w
 int main(void)
 {
     char *string, *stopstring;
